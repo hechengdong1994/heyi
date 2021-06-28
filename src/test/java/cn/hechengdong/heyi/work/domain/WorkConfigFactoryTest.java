@@ -1,27 +1,23 @@
 package cn.hechengdong.heyi.work.domain;
 
+import cn.hechengdong.heyi.work.impl.SpringStepManager;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mockito;
 
 import static org.mockito.Matchers.anyString;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({StepManager.class})
 public class WorkConfigFactoryTest {
 
     @Test
     public void testCreate() {
-        PowerMockito.mockStatic(StepManager.class);
-        PowerMockito.when(StepManager.existsStep(anyString())).thenReturn(true);
+        StepManager stepManager = Mockito.mock(StepManager.class);
+        Mockito.when(stepManager.existsStepExecutor(anyString())).thenReturn(true);
 
         StepConfig stepConfig = new StepConfig("stepName", "stepType");
         WorkConfig workConfig = new WorkConfig("workName", Lists.newArrayList(stepConfig));
-        WorkConfig result = WorkConfigFactory.createWorkConfig(workConfig);
+        WorkConfig result = new WorkConfigFactory(stepManager).createWorkConfig(workConfig);
         Assert.assertEquals(workConfig, result);
     }
 
@@ -32,7 +28,7 @@ public class WorkConfigFactoryTest {
         StepConfig stepConfig3 = new StepConfig(null, "");
         StepConfig stepConfig4 = new StepConfig("", "");
         WorkConfig workConfig = new WorkConfig("workName", Lists.newArrayList(stepConfig1, stepConfig2, stepConfig3, stepConfig4));
-        WorkConfigFactory.createWorkConfig(workConfig);
+        new WorkConfigFactory(new SpringStepManager()).createWorkConfig(workConfig);
         Assert.fail();
     }
 
@@ -40,7 +36,7 @@ public class WorkConfigFactoryTest {
     public void testCreateForIllegalArgumentExceptionByBlankWorkConfigName() {
         StepConfig stepConfig = new StepConfig("stepName", "stepType");
         WorkConfig workConfig = new WorkConfig("", Lists.newArrayList(stepConfig));
-        WorkConfigFactory.createWorkConfig(workConfig);
+        new WorkConfigFactory(new SpringStepManager()).createWorkConfig(workConfig);
         Assert.fail();
     }
 
@@ -48,21 +44,21 @@ public class WorkConfigFactoryTest {
     public void testCreateForIllegalArgumentExceptionByNullWorkConfigName() {
         StepConfig stepConfig = new StepConfig("stepName", "stepType");
         WorkConfig workConfig = new WorkConfig(null, Lists.newArrayList(stepConfig));
-        WorkConfigFactory.createWorkConfig(workConfig);
+        new WorkConfigFactory(new SpringStepManager()).createWorkConfig(workConfig);
         Assert.fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateForIllegalArgumentExceptionByNullStepConfigOfWorkConfig() {
         WorkConfig workConfig = new WorkConfig("workName", null);
-        WorkConfigFactory.createWorkConfig(workConfig);
+        new WorkConfigFactory(new SpringStepManager()).createWorkConfig(workConfig);
         Assert.fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateForIllegalArgumentExceptionByEmptyStepConfigOfWorkConfig() {
         WorkConfig workConfig = new WorkConfig("workName", Lists.newArrayList());
-        WorkConfigFactory.createWorkConfig(workConfig);
+        new WorkConfigFactory(new SpringStepManager()).createWorkConfig(workConfig);
         Assert.fail();
     }
 }

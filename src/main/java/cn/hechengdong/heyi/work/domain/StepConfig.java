@@ -8,13 +8,13 @@ import java.util.Map;
 public class StepConfig {
 
     @NotBlank(message = "步骤名称不能为空")
-    private String name;
+    private final String name;
 
     @NotBlank(message = "步骤类型不能为空")
-    private String type;
+    private final String type;
 
-    @NotNull(message = "步骤参数不能为空")
-    private Map<String, Object> paramConfig = new HashMap<>();
+    @NotNull(message = "步骤参数配置不能为空")
+    private final Map<String, Object> paramConfig = new HashMap<>();
 
     public StepConfig(String name, String type) {
         this(name, type, null);
@@ -24,7 +24,7 @@ public class StepConfig {
         this.name = name;
         this.type = type;
         if (null != paramConfig) {
-            this.paramConfig = paramConfig;
+            this.paramConfig.putAll(paramConfig);
         }
     }
 
