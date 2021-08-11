@@ -11,7 +11,7 @@ public class WorkConfigFactory {
         this.stepManager = stepManager;
     }
 
-    public WorkConfig createWorkConfig(WorkConfig workConfig) {
+    public WorkConfig create(WorkConfig workConfig) {
         // 参数校验
         String errorMessage = ValidateUtil.validate(workConfig);
         if (StringUtils.isNotBlank(errorMessage)) {
