@@ -4,6 +4,8 @@ import cn.hechengdong.heyi.work.domain.WorkConfig;
 import cn.hechengdong.heyi.work.domain.WorkConfigFactory;
 import cn.hechengdong.heyi.work.repository.WorkConfigRepository;
 
+import java.util.List;
+
 public class WorkConfigApplicationService {
 
     private final WorkConfigFactory workConfigFactory;
@@ -15,7 +17,15 @@ public class WorkConfigApplicationService {
     }
 
     public void createWorkConfig(WorkConfig request) {
-        WorkConfig workConfig = workConfigFactory.createWorkConfig(request);
-//        workConfigRepository.save(workConfig);
+        WorkConfig workConfig = workConfigFactory.create(request);
+        workConfigRepository.save(workConfig);
+    }
+
+    public WorkConfig findById(String workConfigId) {
+        return workConfigRepository.findById(workConfigId);
+    }
+
+    public List<WorkConfig> findAll() {
+        return workConfigRepository.findAll();
     }
 }
