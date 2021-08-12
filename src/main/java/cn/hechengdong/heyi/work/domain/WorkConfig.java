@@ -9,7 +9,7 @@ import java.util.Objects;
 public class WorkConfig {
 
     @NotBlank(message = "工作名字不能为空")
-    private String name;
+    private final String name;
 
     @NotEmpty(message = "工作步骤配置不能为空")
     @Valid
@@ -22,10 +22,6 @@ public class WorkConfig {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public List<StepConfig> getStepConfigs() {
