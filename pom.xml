@@ -20,20 +20,11 @@
         <java.version>1.8</java.version>
         <tomcat.version>8.5.28</tomcat.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-        </dependency>
-
-        <!-- validation -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
         </dependency>
 
         <!-- util -->
@@ -75,12 +66,6 @@
             <artifactId>powermock-module-junit4</artifactId>
             <version>1.6.5</version>
             <scope>test</scope>
-        </dependency>
-
-        <!-- tomcat依赖，其中包含validation模块所需的javax扩展 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
     </dependencies>
 

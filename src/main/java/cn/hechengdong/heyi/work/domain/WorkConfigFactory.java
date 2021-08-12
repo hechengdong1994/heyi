@@ -1,7 +1,6 @@
 package cn.hechengdong.heyi.work.domain;
 
-import cn.hechengdong.heyi.util.ValidateUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 public class WorkConfigFactory {
 
@@ -12,17 +11,18 @@ public class WorkConfigFactory {
     }
 
     public WorkConfig create(WorkConfig workConfig) {
-        // 参数校验
-        String errorMessage = ValidateUtil.validate(workConfig);
-        if (StringUtils.isNotBlank(errorMessage)) {
-            throw new IllegalArgumentException(errorMessage);
+        if (workConfig == null) {
+            throw new NullPointerException("work config can not be null.");
+        }
+        if (CollectionUtils.isEmpty(workConfig.getStepConfigs())) {
+            throw new IllegalArgumentException("step configs of work config can not be empty.");
         }
 
-        // 步骤存在性校验
+        // existence of step executor
         for (StepConfig stepConfig : workConfig.getStepConfigs()) {
             String type = stepConfig.getType();
             if (!stepManager.existsStepExecutor(type)) {
-                throw new IllegalArgumentException("non-existent step type : " + type);
+                throw new NullPointerException("non-existent step type : " + type);
             }
         }
 

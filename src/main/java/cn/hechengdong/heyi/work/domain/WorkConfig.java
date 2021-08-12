@@ -1,21 +1,20 @@
 package cn.hechengdong.heyi.work.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 import java.util.Objects;
 
 public class WorkConfig {
 
-    @NotBlank(message = "工作名字不能为空")
     private final String name;
 
-    @NotEmpty(message = "工作步骤配置不能为空")
-    @Valid
     private List<StepConfig> stepConfigs;
 
     public WorkConfig(String name, List<StepConfig> stepConfigs) {
+        if (StringUtils.isBlank(name)) {
+            throw new NullPointerException("name of work can not be blank.");
+        }
         this.name = name;
         this.stepConfigs = stepConfigs;
     }

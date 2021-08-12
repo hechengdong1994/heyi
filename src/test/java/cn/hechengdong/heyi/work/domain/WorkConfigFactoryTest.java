@@ -21,8 +21,8 @@ public class WorkConfigFactoryTest {
         Assert.assertEquals(workConfig, result);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateForIllegalArgumentExceptionByIllegalStepConfig() {
+    @Test(expected = NullPointerException.class)
+    public void testCreateForNullPointerExceptionByIllegalStepConfig() {
         StepConfig stepConfig1 = new StepConfig(null, null);
         StepConfig stepConfig2 = new StepConfig("", null);
         StepConfig stepConfig3 = new StepConfig(null, "");
@@ -32,16 +32,16 @@ public class WorkConfigFactoryTest {
         Assert.fail();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateForIllegalArgumentExceptionByBlankWorkConfigName() {
+    @Test(expected = NullPointerException.class)
+    public void testCreateForNullPointerExceptionByBlankWorkConfigName() {
         StepConfig stepConfig = new StepConfig("stepName", "stepType");
         WorkConfig workConfig = new WorkConfig("", Lists.newArrayList(stepConfig));
         new WorkConfigFactory(new SpringStepManager()).create(workConfig);
         Assert.fail();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateForIllegalArgumentExceptionByNullWorkConfigName() {
+    @Test(expected = NullPointerException.class)
+    public void testCreateForNullPointerExceptionByNullWorkConfigName() {
         StepConfig stepConfig = new StepConfig("stepName", "stepType");
         WorkConfig workConfig = new WorkConfig(null, Lists.newArrayList(stepConfig));
         new WorkConfigFactory(new SpringStepManager()).create(workConfig);
