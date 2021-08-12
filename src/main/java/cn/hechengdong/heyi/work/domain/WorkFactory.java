@@ -1,6 +1,7 @@
 package cn.hechengdong.heyi.work.domain;
 
 import cn.hechengdong.heyi.work.impl.DefaultStep;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Map;
 
@@ -12,11 +13,22 @@ public class WorkFactory {
         this.stepManager = stepManager;
     }
 
-    public Work createWork(WorkConfig workConfig, Map<String, Object> params) {
+    public Work create(WorkConfig workConfig, Map<String, Object> params) {
+        if (workConfig == null) {
+            throw new NullPointerException("work config can not be null.");
+        }
+        if (CollectionUtils.isEmpty(workConfig.getStepConfigs())) {
+            throw new NullPointerException("step configs of work config can not be empty.");
+        }
+
         Work work = new Work(workConfig.getName(), params);
-        // StepChain
+        // handle step chain
         for (StepConfig stepConfig : workConfig.getStepConfigs()) {
-            Step step = new DefaultStep(stepConfig.getName(), stepManager.getStepExecutor(stepConfig.getType()), stepConfig.getParamConfig());
+            StepExecutor stepExecutor = stepManager.getStepExecutor(stepConfig.getType());
+            if (stepExecutor == null) {
+                throw new NullPointerException("no step executor named " + stepConfig.getType());
+            }
+            Step step = new DefaultStep(stepConfig.getName(), stepExecutor, stepConfig.getParamConfig());
             work.addStep(step);
         }
         work.validate();
