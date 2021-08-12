@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class DefaultStep extends AbstractStep {
 
-
     public DefaultStep(String name, StepExecutor executor, Map<String, Object> paramConfig) {
         super(name, executor, paramConfig);
     }
@@ -19,4 +18,5 @@ public class DefaultStep extends AbstractStep {
     @Override
     protected void doResolve(Map<String, Object> params, Result result) {
     }
+
 }
