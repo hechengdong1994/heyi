@@ -37,6 +37,8 @@ public class Work {
      */
     private WorkStatus status;
 
+    private Exception failureCause;
+
     public Work(String name, Map<String, Object> params) {
         if (StringUtils.isBlank(name)) {
             throw new NullPointerException("name of work can not be blank.");
@@ -82,6 +84,7 @@ public class Work {
                 }
             }
         } catch (Exception e) {
+            failureCause = e;
             // change status
             status = WorkStatus.FAILED;
         }
@@ -127,5 +130,9 @@ public class Work {
 
     public Map<String, Object> getParams() {
         return params;
+    }
+
+    public String getFailureCause() {
+        return failureCause.getMessage();
     }
 }
